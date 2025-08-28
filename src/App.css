@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+@layer components {
+  .custom-container {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+@layer base {
+  button {
+    @apply cursor-pointer rounded-md px-4 py-2 bg-blue-500 text-white hover:bg-blue-600;
+  }
+}
