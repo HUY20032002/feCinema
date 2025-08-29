@@ -20,7 +20,7 @@ function Header() {
     <header className="w-full bg-amber-500">
       <div className="custom-container flex items-center justify-between py-3 md:px-5">
         {/* Left */}
-        <div className="left-content flex gap-4  text-sm">
+        <div className="left-content flex gap-4 text-sm">
           <a href="" className="px-3">
             X Cinema platform
           </a>
