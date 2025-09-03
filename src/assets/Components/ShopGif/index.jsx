@@ -38,21 +38,27 @@ function ShopGiff() {
 
   return (
     <div>
-      <div className="container pt-10 flex items-center justify-center text-xs md:text-lg gap-0">
-        {menus.map((menu, index) => (
-          <div
-            key={menu.id}
-            className={`px-3 py-2 border-2 md:py-5 md:px-10 cursor-pointer
-              ${
-                active === index
-                  ? "bg-amber-500 text-white border-amber-600"
-                  : "border-gray-200"
-              }`}
-            onClick={() => setActive(index)}>
-            <a href={`#${menu.id}`}>{menu.label}</a>
-          </div>
-        ))}
-      </div>
+     <div className="sticky top-0 z-50 bg-white shadow">
+  <div className="container mx-auto flex justify-center">
+    <div className="flex items-center text-xs gap-0 md:text-lg">
+      {menus.map((menu, index) => (
+        <div
+          key={menu.id}
+          className={`px-3 py-2 border-2 md:py-5 md:px-10 cursor-pointer
+            ${
+              active === index
+                ? "bg-amber-500 text-white border-amber-600"
+                : "border-gray-200"
+            }`}
+          onClick={() => setActive(index)}
+        >
+          <a href={`#${menu.id}`}>{menu.label}</a>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
 
       <div className="custom-section mt-10 space-y-10">
         {/* Section 1 */}
