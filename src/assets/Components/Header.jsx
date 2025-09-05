@@ -58,7 +58,7 @@ function Header() {
         </div>
 
         {/* Mobile menu button */}
-        <div className="md:hidden">
+        <div className="md:hidden lg:hidden">
           <button onClick={() => setOpen(!open)}>
             <FontAwesomeIcon icon={faBars} size="lg" />
           </button>
