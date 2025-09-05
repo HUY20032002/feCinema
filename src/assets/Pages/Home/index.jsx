@@ -2,7 +2,6 @@ import { useState } from "react";
 import Nagivator from "../../Components/Nagivator";
 import ShopGiff from "../../Components/ShopGif";
 import Tickets from "../../Components/Tickets";
-
 function HomePage() {
   const [active, setActive] = useState("SHOP QUÀ TẶNG"); // mặc định hiển thị Shop
 

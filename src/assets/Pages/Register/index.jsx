@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,23 +15,18 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Kiểm tra mật khẩu trùng khớp
     if (password !== password2) {
       alert("Mật khẩu không khớp!");
       return;
     }
 
-    // Lấy dữ liệu từ localStorage
     const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    // Kiểm tra email trùng
     const isExist = users.find((u) => u.email === email);
     if (isExist) {
       alert("Email đã tồn tại!");
       return;
     }
 
-    // Lưu user mới
     users.push({ email, password });
     localStorage.setItem("users", JSON.stringify(users));
 
@@ -43,88 +38,89 @@ function Register() {
   };
 
   return (
-    <div className=" p-10 w-full">
-      <form
-        onSubmit={handleSubmit}
+    <div className="p-10 w-full">
+      <section className="flex items-center justify-center text-2xl p-6">
+        <Link to="/">LOGO CINEMA</Link>
+      </section>
+
+      <div
         className="items-center 
-            border-2 border-black p-10 rounded-lg shadow-lg
-            bg-white md:w-2/3 xl:w-1/3 md:mx-auto md:flex
-            md:flex-col md:items-center md:justify-center md:mt-10 md:gap-4">
-        <h2 className="text-2xl font-bold mb-4">Register</h2>
+          border-2 border-black p-10 rounded-lg shadow-lg
+          bg-white md:w-2/3 xl:w-1/3 md:mx-auto md:flex
+          md:flex-col md:items-center md:justify-center md:mt-10 md:gap-4">
+        {/* Form đăng ký */}
+        <form onSubmit={handleSubmit} className="w-full space-y-3">
+          <h2 className="text-2xl font-bold text-center">Register</h2>
 
-        <label htmlFor="email">Email:</label>
-        <input
-          className="border-2 border-black rounded-md p-2 w-full"
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              className="border-2 border-black rounded-md p-2 w-full"
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <label htmlFor="password">Password:</label>
-        <div className="relative w-full">
-          {" "}
-          <input
-            className="border-2 border-black rounded-md p-2 w-full"
-            type={isShow ? "text" : "password"}
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div>
+            <label htmlFor="password">Password:</label>
+            <div className="relative w-full">
+              <input
+                className="border-2 border-black rounded-md p-2 w-full"
+                type={isShow ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShow1((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-white text-black">
+                <FontAwesomeIcon icon={isShow ? faEyeSlash : faEye} />
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="password2">Nhập lại Password:</label>
+            <div className="relative w-full">
+              <input
+                className="border-2 border-black rounded-md p-2 w-full"
+                type={isShow2 ? "text" : "password"}
+                id="password2"
+                value={password2}
+                onChange={(e) => setPassword2(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShow2((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-white text-black">
+                <FontAwesomeIcon icon={isShow2 ? faEyeSlash : faEye} />
+              </button>
+            </div>
+          </div>
+
           <button
-            type="button"
-            onClick={() => setShow1((prev) => !prev)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 bg-white text-black">
-            <FontAwesomeIcon icon={isShow ? faEyeSlash : faEye} />
-          </button>
-        </div>
-
-        <label htmlFor="password2">Nhập lại Password:</label>
-        <div className="relative w-full">
-          <input
-            className="border-2 border-black rounded-md p-2 w-full"
-            type={isShow2 ? "text" : "password"}
-            id="password2"
-            value={password2}
-            onChange={(e) => setPassword2(e.target.value)}
-            required
-          />
-          <button
-            type="button"
-            onClick={() => setShow2((prev) => !prev)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 bg-white text-black">
-            <FontAwesomeIcon icon={isShow2 ? faEyeSlash : faEye} />
-          </button>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setShow2((prev) => !prev)}
-          className="absolute right-2 top-2 text-blue-500">
-          <FontAwesomeIcon icon={isShow2 ? faEyeSlash : faEye} />
-        </button>
-
-        <div className="flex items-center justify-center">
-          <button
-            className="bg-blue-500 text-white px-4 py-2 m-3 rounded-md hover:bg-blue-600 "
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
             type="submit">
             Register
           </button>
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-            type="submit">
-            Login
-          </button>
-        </div>
+        </form>
 
-        <div className="text-center">
-          <a href="/forgot-password" className="text-blue-500 hover:underline">
+        {/* Link ngoài form */}
+        <div className="flex justify-center gap-6 mt-4">
+          <Link to="/login" className="text-blue-500 hover:underline">
+            Login
+          </Link>
+          <Link to="/forgot-password" className="text-blue-500 hover:underline">
             Forgot Password?
-          </a>
+          </Link>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
