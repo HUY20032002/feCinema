@@ -6,6 +6,7 @@ import {
   faUser,
   faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
+import Menu from "../Modals/Menu";
 
 function Header() {
   const [open, setOpen] = useState(false);
@@ -65,27 +66,8 @@ function Header() {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
-      {open && (
-        <div className="md:hidden flex flex-col gap-2 p-4 ">
-          {user.accessToken ? (
-            <>
-              <button className="px-4 text-left">Logout</button>
-              <button className="px-4 text-left">Profile User</button>
-              {user.role === "admin" ? (
-                <button className="px-4 text-left">Quản trị viên</button>
-              ) : (
-                <button className="px-4 text-left">Nhân viên</button>
-              )}
-            </>
-          ) : (
-            <>
-              <button className="px-4 text-left">Sign</button>
-              <button className="px-4 text-left">Register</button>
-            </>
-          )}
-        </div>
-      )}
+      {/* Mobile modal menu */}
+      <Menu open={open} onClose={() => setOpen(false)} />
     </header>
   );
 }
