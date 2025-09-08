@@ -70,55 +70,55 @@ function ShopGiff() {
         </div>
       </div>
 
-      <div className="custom-section mt-10 space-y-10">
+      <div className="custom-container mt-10 space-y-10">
         {/* Section 1 */}
-        <div className="text-center w-full">
-          <section id="banchaynhat" className="p-5 border bg-gray-100 ">
-            Bán Chạy Nhất
-          </section>
-          <section>
-            <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-              <ul
-                class="mt-4 flex gap-4 overflow-x-auto 
-             sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:overflow-visible sm:mt-8"
-              >
-                {shopgiffs && shopgiffs.length > 0 ? (
-                  shopgiffs.map((item) => (
-                    <li key={item.id} className="flex-shrink-0 w-48 sm:w-auto">
-                      <a href="#" className="group block overflow-hidden">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="h-[200px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[200px]"
-                        />
-                        <div className="relative bg-white pt-3">
-                          <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                            {item.name}
-                          </h3>
-                          <p className="mt-2 tracking-wider text-gray-900">
-                            {item.price.toLocaleString()} VND
-                          </p>
-                        </div>
-                      </a>
-                    </li>
-                  ))
-                ) : (
-                  <li>Không có sản phẩm</li>
-                )}
-              </ul>
-            </div>
-          </section>
+        <div className="custom-container" id="banchaynhat">
+          {/* Tiêu đề gần grid sản phẩm */}
+          <h2 className="font-bold text-lg mb-2 ml-[30px]">Bán Chạy Nhất</h2>
+
+          <div className="mx-auto max-w-screen-xl px-4 pb-8 sm:px-6 lg:px-8">
+            <ul
+              className="flex gap-4 overflow-x-auto
+        sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:overflow-visible"
+            >
+              {shopgiffs && shopgiffs.length > 0 ? (
+                shopgiffs.map((item) => (
+                  <li key={item.id} className="flex-shrink-0 w-48 sm:w-auto">
+                    <a href="#" className="group block overflow-hidden">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="h-[200px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[200px]"
+                      />
+                      <div className="relative bg-white pt-3">
+                        <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                          {item.name}
+                        </h3>
+                        <p className="mt-2 tracking-wider text-gray-900">
+                          {item.price.toLocaleString()} VND
+                        </p>
+                      </div>
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <li>Không có sản phẩm</li>
+              )}
+            </ul>
+          </div>
         </div>
 
         {/* Section 2 */}
-        <div className="text-center">
-          <section id="danhmuchangban" className="p-5 border bg-gray-100 ">
-            Danh mục hàng bán
-          </section>
-          <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+        <div id="danhmuchangban" className="custom-container">
+          {/* Tiêu đề gần grid sản phẩm */}
+          <h2 className="font-bold text-lg mb-2 ml-[30px]">
+            Danh Mục Hàng Bán{" "}
+          </h2>
+
+          <div className="mx-auto max-w-screen-xl px-4 pb-8 sm:px-6 lg:px-8">
             <ul
-              class="mt-4 flex gap-4 overflow-x-auto 
-             sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:overflow-visible sm:mt-8"
+              className="flex gap-4 overflow-x-auto
+        sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:overflow-visible"
             >
               {shopgiffs && shopgiffs.length > 0 ? (
                 shopgiffs.map((item) => (
@@ -148,14 +148,14 @@ function ShopGiff() {
         </div>
 
         {/* Section 3 */}
-        <div className="text-center">
-          <section id="lottecombo" className="p-5 border bg-gray-100 ">
-            Lotte Combo
-          </section>
-          <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+        <div id="lottecombo" className="custom-container">
+          {/* Tiêu đề gần grid sản phẩm */}
+          <h2 className="font-bold text-lg mb-2 ml-[30px]">Lotte Combo </h2>
+
+          <div className="mx-auto max-w-screen-xl px-4 pb-8 sm:px-6 lg:px-8">
             <ul
-              class="mt-4 flex gap-4 overflow-x-auto 
-             sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:overflow-visible sm:mt-8"
+              className="flex gap-4 overflow-x-auto
+        sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:overflow-visible"
             >
               {shopgiffs && shopgiffs.length > 0 ? (
                 shopgiffs.map((item) => (

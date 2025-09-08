@@ -1,5 +1,6 @@
 function Nagivator({ active, setActive }) {
   const menus = [
+  
     "SHOP QUÀ TẶNG",
     "MUA VÉ",
     "PHIM",
@@ -7,7 +8,6 @@ function Nagivator({ active, setActive }) {
     "TIN MỚI VÀ ƯU ĐÃI",
     "LIÊN HỆ",
   ];
-
   return (
     <nav className="bg-red-200">
       <div className="flex flex-row justify-start md:justify-center overflow-x-auto whitespace-nowrap py-3 divide-x divide-black">

@@ -1,11 +1,11 @@
-import { useState } from "react";
+import {useNavigate, useEffect, useState } from "react";
 import Nagivator from "../../Components/Nagivator";
 import ShopGiff from "../../Components/ShopGif";
 import Tickets from "../../Components/Tickets";
 import Movies from "../../Components/Movies";
 function HomePage() {
-  const [active, setActive] = useState("SHOP QUÀ TẶNG"); // mặc định hiển thị Shop
-
+const [active, setActive] = useState("TRANG CHỦ");
+ 
   return (
     <div>
       <section className="flex items-center justify-center text-2xl p-6">
@@ -15,6 +15,9 @@ function HomePage() {
       <Nagivator active={active} setActive={setActive} />
       <hr />
       {/* Điều kiện hiển thị */}
+      {active === "TRANG CHỦ" && (
+        <div className="p-6 text-center">Trang chủ - Nội dung chính...</div>
+      )}
       {active === "SHOP QUÀ TẶNG" && <ShopGiff />}
       {active === "MUA VÉ" && <Tickets />}
       {active === "PHIM" && <Movies/>}
