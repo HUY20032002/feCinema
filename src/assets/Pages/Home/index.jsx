@@ -2,6 +2,7 @@ import { useState } from "react";
 import Nagivator from "../../Components/Nagivator";
 import ShopGiff from "../../Components/ShopGif";
 import Tickets from "../../Components/Tickets";
+import Movies from "../../Components/Movies";
 function HomePage() {
   const [active, setActive] = useState("SHOP QUÀ TẶNG"); // mặc định hiển thị Shop
 
@@ -16,9 +17,7 @@ function HomePage() {
       {/* Điều kiện hiển thị */}
       {active === "SHOP QUÀ TẶNG" && <ShopGiff />}
       {active === "MUA VÉ" && <Tickets />}
-      {active === "PHIM" && (
-        <div className="p-6 text-center">Danh sách phim...</div>
-      )}
+      {active === "PHIM" && <Movies/>}
       {active === "RẠP CHIẾU PHIM" && (
         <div className="p-6 text-center">Thông tin rạp chiếu...</div>
       )}
