@@ -147,7 +147,23 @@ function Movies() {
                   alt={`movie-${index}`}
                   className="w-full h-[250px] lg:w-[250px] lg:h-[350px] object-cover"
                 />
-                <p className="text-center mt-2">Phim {index + 1}</p>
+                <div className="text-center mt-2">
+                  {/* Dòng đầu tiên: độ tuổi - tên phim */}
+                  <div className="flex items-center justify-center gap-2 border-b border-gray-400 pb-1">
+                    <div>Độ tuổi</div>
+                    <div>Tên phim</div>
+                  </div>
+
+                  {/* Dòng thứ 2: thời lượng - ngày */}
+                  <div className="flex items-center justify-center gap-2 mt-2 text-sm">
+                    <div>100 phút</div>
+                    <div className="border-l border-gray-400 h-4"></div>
+                    <div>20/2/2025</div>
+                  </div>
+
+                  {/* Dòng cuối */}
+                  <div className="mt-1 font-medium">Phim {index + 1}</div>
+                </div>
               </div>
             ))}
         </div>
