@@ -8,16 +8,25 @@ function ResetPassword() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Lấy email từ query param (?email=...)
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const emailParam = queryParams.get("email");
-    if (emailParam) {
-      setEmail(emailParam);
-    } else {
-      alert("Link không hợp lệ!");
+    const tokenParam = queryParams.get("token");
+
+    const resetData = JSON.parse(localStorage.getItem("resetToken"));
+
+    if (
+      !resetData ||
+      resetData.email !== emailParam ||
+      resetData.token !== tokenParam ||
+      Date.now() > resetData.expireTime
+    ) {
+      alert("Link đã hết hạn hoặc không hợp lệ!");
       navigate("/forgot-password");
+      return;
     }
+
+    setEmail(emailParam);
   }, [location, navigate]);
 
   const handleSubmit = (e) => {
@@ -40,6 +49,9 @@ function ResetPassword() {
     users[userIndex].password = password;
     localStorage.setItem("users", JSON.stringify(users));
 
+    // Xoá token sau khi dùng
+    localStorage.removeItem("resetToken");
+
     alert("Đổi mật khẩu thành công!");
     navigate("/login");
   };
@@ -50,11 +62,7 @@ function ResetPassword() {
         <Link to="/">LOGO CINEMA</Link>
       </section>
 
-      <div
-        className="items-center 
-          border-2 border-black p-10 rounded-lg shadow-lg
-          bg-white md:w-2/3 xl:w-1/3 md:mx-auto md:flex
-          md:flex-col md:items-center md:justify-center md:mt-10 md:gap-4">
+      <div className="items-center border-2 border-black p-10 rounded-lg shadow-lg bg-white md:w-2/3 xl:w-1/3 md:mx-auto md:flex md:flex-col md:items-center md:justify-center md:mt-10 md:gap-4">
         <form onSubmit={handleSubmit} className="w-full space-y-3">
           <h2 className="text-2xl font-bold text-center">Đặt lại mật khẩu</h2>
 
@@ -84,7 +92,8 @@ function ResetPassword() {
 
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
-            type="submit">
+            type="submit"
+          >
             Xác nhận
           </button>
         </form>

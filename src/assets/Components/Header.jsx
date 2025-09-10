@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -10,11 +10,19 @@ import Menu from "../Modals/Menu";
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  const user = {
-    name: "huy",
-    accessToken: "123",
-    role: "staff",
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    setCurrentUser(null);
+    window.location.href = "/login"; // hoặc dùng useNavigate
   };
 
   return (
@@ -22,38 +30,39 @@ function Header() {
       <div className="custom-container flex items-center justify-between py-3 md:px-5">
         {/* Left */}
         <div className="left-content flex gap-4 text-sm">
-          <a href="" className="px-3">
+          <a href="/" className="px-3">
             X Cinema platform
           </a>
-          <a href="" className="px-3">
+          <a href="/" className="px-3">
             X Cinema Facebook
           </a>
         </div>
 
         {/* Desktop menu */}
-        <div className="right-content hidden md:flex gap-2 ">
-          {user.accessToken ? (
+        <div className="right-content hidden md:flex gap-2">
+          {currentUser ? (
             <>
-              <button className="px-4 flex items-center gap-2">
+              <button
+                className="px-4 flex items-center gap-2"
+                onClick={handleLogout}
+              >
                 <FontAwesomeIcon icon={faRightFromBracket} /> Logout
               </button>
               <button className="px-4 flex items-center gap-2">
-                <FontAwesomeIcon icon={faUser} /> Profile User
+                <FontAwesomeIcon icon={faUser} /> {currentUser.email}
               </button>
-              {user.role === "admin" ? (
+              {currentUser.role === "admin" ? (
                 <button className="px-4 flex items-center gap-2">
                   <FontAwesomeIcon icon={faUserShield} /> Quản trị viên
                 </button>
               ) : (
-                <button className="px-4 flex items-center gap-2">
-                  Nhân viên
-                </button>
+                <button className="px-4 flex items-center gap-2">Hồ sơ</button>
               )}
             </>
           ) : (
             <>
-              <button>Sign</button>
-              <button>Register</button>
+              <button href="/login">Login</button>
+              <button href="/register">Register</button>
             </>
           )}
         </div>

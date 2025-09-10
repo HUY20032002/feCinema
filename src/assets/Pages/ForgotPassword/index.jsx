@@ -7,7 +7,7 @@ function ForgotPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Lấy user từ localStorage
+    // Lấy danh sách user từ localStorage
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const user = users.find((u) => u.email === email);
 
@@ -16,8 +16,17 @@ function ForgotPassword() {
       return;
     }
 
-    // Giả lập gửi email (ở thực tế sẽ gọi API backend gửi mail)
-    const resetLink = `http://localhost:3000/reset-password?email=${email}`;
+    // Sinh token ngẫu nhiên + hạn 120s
+    const token = Math.random().toString(36).substring(2);
+    const expireTime = Date.now() + 120 * 1000; // 120 giây
+
+    localStorage.setItem(
+      "resetToken",
+      JSON.stringify({ email, token, expireTime })
+    );
+
+    // Tạo link reset
+    const resetLink = `http://localhost:3000/reset-password?email=${email}&token=${token}`;
     alert(`Link đổi mật khẩu đã được gửi tới email: ${email}\n\n${resetLink}`);
 
     setEmail("");
@@ -29,11 +38,7 @@ function ForgotPassword() {
         <Link to="/">LOGO CINEMA</Link>
       </section>
 
-      <div
-        className="items-center 
-          border-2 border-black p-10 rounded-lg shadow-lg
-          bg-white md:w-2/3 xl:w-1/3 md:mx-auto md:flex
-          md:flex-col md:items-center md:justify-center md:mt-10 md:gap-4">
+      <div className="items-center border-2 border-black p-10 rounded-lg shadow-lg bg-white md:w-2/3 xl:w-1/3 md:mx-auto md:flex md:flex-col md:items-center md:justify-center md:mt-10 md:gap-4">
         <form onSubmit={handleSubmit} className="w-full space-y-3">
           <h2 className="text-2xl font-bold text-center">Forgot Password</h2>
 
@@ -51,7 +56,8 @@ function ForgotPassword() {
 
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
-            type="submit">
+            type="submit"
+          >
             Gửi Link Đổi Mật Khẩu
           </button>
         </form>
