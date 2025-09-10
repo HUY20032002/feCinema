@@ -170,12 +170,12 @@ function Movies() {
 
         {/* Nút Xem thêm */}
         {visibleCount < images.length && (
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center my-4 bg-amber-100">
             <button
               onClick={() => setVisibleCount((prev) => prev + 4)} // mỗi lần xem thêm load thêm 4 phim
-              className="px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600"
+              className="w-full px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600"
             >
-              Xem thêm
+              Xem Thêm
             </button>
           </div>
         )}
