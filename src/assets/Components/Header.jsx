@@ -6,23 +6,19 @@ import {
   faUser,
   faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from "react-router-dom";
 import Menu from "../Modals/Menu";
+import { useSelector } from "react-redux";
 
 function Header() {
+  const user = useSelector((state) => state.auth.user);
   const [open, setOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("currentUser"));
-    if (user) {
-      setCurrentUser(user);
-    }
-  }, []);
-
+  const navigate = useNavigate();
   const handleLogout = () => {
+    dispatch(logout()); // reset redux state
     localStorage.removeItem("currentUser");
-    setCurrentUser(null);
-    window.location.href = "/login"; // hoặc dùng useNavigate
+    localStorage.removeItem("accessToken");
+    navigate("/");
   };
 
   return (
@@ -40,30 +36,46 @@ function Header() {
 
         {/* Desktop menu */}
         <div className="right-content hidden md:flex gap-2">
-          {currentUser ? (
-            <>
-              <button
-                className="px-4 flex items-center gap-2"
-                onClick={handleLogout}
-              >
+          {user?._id ? (
+            <div className="flex items-center justify-center">
+              <Link
+                to="/"
+                className="bg-blue-500 px-3 py-2 rounded-lg text-white mr-2"
+                onClick={handleLogout}>
                 <FontAwesomeIcon icon={faRightFromBracket} /> Logout
-              </button>
-              <button className="px-4 flex items-center gap-2">
-                <FontAwesomeIcon icon={faUser} /> {currentUser.email}
-              </button>
-              {currentUser.role === "admin" ? (
-                <button className="px-4 flex items-center gap-2">
+              </Link>
+              <Link
+                to="/"
+                className="bg-blue-500 px-3 py-2 rounded-lg text-white mr-2">
+                <FontAwesomeIcon icon={faUser} /> {user.name}
+              </Link>
+              {user.role === "admin" ? (
+                <Link
+                  to="/"
+                  className="bg-blue-500 px-3 py-2 rounded-lg text-white mr-2">
                   <FontAwesomeIcon icon={faUserShield} /> Quản trị viên
-                </button>
+                </Link>
               ) : (
-                <button className="px-4 flex items-center gap-2">Hồ sơ</button>
+                <Link
+                  to="/"
+                  className="bg-blue-500 px-3 py-2 rounded-lg text-white">
+                  Hồ sơ
+                </Link>
               )}
-            </>
+            </div>
           ) : (
-            <>
-              <button href="/login">Login</button>
-              <button href="/register">Register</button>
-            </>
+            <div className="flex items-center justify-center">
+              <Link
+                to="/login"
+                className="mr-2 bg-blue-500 px-3 py-2 rounded-lg text-white">
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="bg-blue-500 px-3 py-2 rounded-lg text-white">
+                Register
+              </Link>
+            </div>
           )}
         </div>
 

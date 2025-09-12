@@ -15,11 +15,13 @@ const API_URL = "http://localhost:3000";
 export const login = async (dispatch, email, password) => {
   try {
     dispatch(loginStart());
-    const res = await axios.post(`${API_URL}/auth/login`, {
-      email,
-      password,
-    });
-    dispatch(loginSuccess(res.data)); // { user, accessToken }
+    const res = await axios.post(`${API_URL}/auth/login`, { email, password });
+
+    dispatch(loginSuccess(res.data));
+
+    // Lưu vào localStorage ở đây, thay vì reducer
+
+    localStorage.setItem("accessToken", res.data.accessToken);
   } catch (err) {
     dispatch(loginFailure(err.response?.data || "Login failed"));
   }

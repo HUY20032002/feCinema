@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+const storedUser = localStorage.getItem("user");
+const storedToken = localStorage.getItem("accessToken");
 
 const authSlice = createSlice({
   name: "auth", // bắt buộc có
   initialState: {
-    user: null,
+    user: storedUser ? JSON.parse(storedUser) : null,
+    accessToken: storedToken || null,
     loading: false,
     error: null,
   },
@@ -14,11 +17,20 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.user = action.payload.user;
+      state.accessToken = action.payload.accessToken;
+
+      // lưu vào localStorage
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      localStorage.setItem("accessToken", action.payload.accessToken);
     },
     loginFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    logout: (state) => {
+      state.user = null;
+      state.accessToken = null;
     },
 
     registerStart: (state) => {
