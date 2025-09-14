@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -9,15 +9,19 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import Menu from "../Modals/Menu";
 import { useSelector } from "react-redux";
-
+import { logoutUser } from "../../redux/apiRequest"; // 👈 đúng
+import { useDispatch } from "react-redux";
 function Header() {
-  const user = useSelector((state) => state.auth.user);
+  const currentUser = useSelector(
+    (state) => state.auth?.login.currentUser || null
+  );
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // Handle logout
   const handleLogout = () => {
-    dispatch(logout()); // reset redux state
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("accessToken");
+    const refreshToken = currentUser?.refreshToken;
+    logoutUser(dispatch, refreshToken); // reset auth slice
     navigate("/");
   };
 
@@ -36,29 +40,33 @@ function Header() {
 
         {/* Desktop menu */}
         <div className="right-content hidden md:flex gap-2">
-          {user?._id ? (
+          {currentUser?.user._id ? (
             <div className="flex items-center justify-center">
               <Link
                 to="/"
                 className="bg-blue-500 px-3 py-2 rounded-lg text-white mr-2"
-                onClick={handleLogout}>
+                onClick={handleLogout}
+              >
                 <FontAwesomeIcon icon={faRightFromBracket} /> Logout
               </Link>
               <Link
                 to="/"
-                className="bg-blue-500 px-3 py-2 rounded-lg text-white mr-2">
-                <FontAwesomeIcon icon={faUser} /> {user.name}
+                className="bg-blue-500 px-3 py-2 rounded-lg text-white mr-2"
+              >
+                <FontAwesomeIcon icon={faUser} /> {currentUser?.user.name}
               </Link>
-              {user.role === "admin" ? (
+              {currentUser?.user.role === "admin" ? (
                 <Link
                   to="/"
-                  className="bg-blue-500 px-3 py-2 rounded-lg text-white mr-2">
+                  className="bg-blue-500 px-3 py-2 rounded-lg text-white mr-2"
+                >
                   <FontAwesomeIcon icon={faUserShield} /> Quản trị viên
                 </Link>
               ) : (
                 <Link
                   to="/"
-                  className="bg-blue-500 px-3 py-2 rounded-lg text-white">
+                  className="bg-blue-500 px-3 py-2 rounded-lg text-white"
+                >
                   Hồ sơ
                 </Link>
               )}
@@ -67,12 +75,14 @@ function Header() {
             <div className="flex items-center justify-center">
               <Link
                 to="/login"
-                className="mr-2 bg-blue-500 px-3 py-2 rounded-lg text-white">
+                className="mr-2 bg-blue-500 px-3 py-2 rounded-lg text-white"
+              >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="bg-blue-500 px-3 py-2 rounded-lg text-white">
+                className="bg-blue-500 px-3 py-2 rounded-lg text-white"
+              >
                 Register
               </Link>
             </div>

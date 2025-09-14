@@ -9,19 +9,20 @@ import {
   forgotPasswordStart,
   forgotPasswordSuccess,
   forgotPasswordFailure,
+  logout,
 } from "./authSlice";
 const API_URL = "http://localhost:3000";
 // thunk login
 export const login = async (dispatch, email, password) => {
   try {
     dispatch(loginStart());
-    const res = await axios.post(`${API_URL}/auth/login`, { email, password });
+
+    const res = await axios.post(
+      `${API_URL}/auth/login`,
+      { email, password } // body
+    );
 
     dispatch(loginSuccess(res.data));
-
-    // Lưu vào localStorage ở đây, thay vì reducer
-
-    localStorage.setItem("accessToken", res.data.accessToken);
   } catch (err) {
     dispatch(loginFailure(err.response?.data || "Login failed"));
   }
@@ -37,7 +38,6 @@ export const register = async (dispatch, data) => {
     dispatch(registerFailure(err.response?.data || "Register failed"));
   }
 };
-
 // thunk forgotPassword
 export const forgotPassword =
   ({ email }) =>
@@ -52,3 +52,15 @@ export const forgotPassword =
       dispatch(forgotPasswordFailure(err.response?.data || "Request failed"));
     }
   };
+export const logoutUser = async (dispatch, refreshToken) => {
+  try {
+    await axios.post(`${API_URL}/auth/logout`, { token: refreshToken });
+  } catch (err) {
+    if (err.response?.status === 401) {
+      dispatch(logout());
+      window.location.href = "/login";
+    }
+  } finally {
+    dispatch(logout()); // luôn reset redux state
+  }
+};

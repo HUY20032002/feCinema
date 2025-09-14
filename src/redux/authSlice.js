@@ -1,65 +1,57 @@
 import { createSlice } from "@reduxjs/toolkit";
-const storedUser = localStorage.getItem("user");
-const storedToken = localStorage.getItem("accessToken");
 
 const authSlice = createSlice({
   name: "auth", // bắt buộc có
   initialState: {
-    user: storedUser ? JSON.parse(storedUser) : null,
-    accessToken: storedToken || null,
-    loading: false,
-    error: null,
+    login: {
+      currentUser: null,
+      loading: false,
+      error: false,
+    },
   },
   reducers: {
     loginStart: (state) => {
-      state.loading = true;
+      state.login.loading = true;
       state.error = null;
     },
     loginSuccess: (state, action) => {
-      state.loading = false;
-      state.user = action.payload.user;
-      state.accessToken = action.payload.accessToken;
-
-      // lưu vào localStorage
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
-      localStorage.setItem("accessToken", action.payload.accessToken);
+      state.login.loading = false;
+      state.login.currentUser = action.payload;
+      state.login.error = false;
     },
-    loginFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
+    loginFailure: (state) => {
+      state.login.loading = false;
+      state.login.error = true;
     },
     logout: (state) => {
-      state.user = null;
-      state.accessToken = null;
+      state.login.currentUser = null;
+      state.login.loading = false;
+      state.login.error = false;
     },
 
     registerStart: (state) => {
-      state.loading = true;
-      state.error = null;
+      state.login.loading = true;
+      state.login.error = null;
     },
     registerSuccess: (state, action) => {
-      state.loading = false;
-      state.user = action.payload;
+      state.login.loading = false;
+      state.login.currentUser = action.payload;
     },
-    registerFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
+    registerFailure: (state) => {
+      state.login.loading = false;
+      state.login.error = true;
     },
 
     forgotPasswordStart: (state) => {
-      state.loading = true;
-      state.error = null;
+      state.login.loading = true;
+      state.login.error = false;
     },
     forgotPasswordSuccess: (state) => {
-      state.loading = false;
+      state.login.loading = false;
     },
-    forgotPasswordFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-
-    logout: (state) => {
-      state.user = null;
+    forgotPasswordFailure: (state) => {
+      state.login.loading = false;
+      state.login.error = true;
     },
   },
 });

@@ -135,7 +135,7 @@ function Movies() {
       {/* List Movie */}
       <section className="container lg:w-[1035px] mx-auto mt-10">
         <div className="text-center p-[10px] font-bold text-lg">
-          DANH SÁCH PHIM
+          {active === 0 ? "PHIM ĐANG CHIẾU" : "PHIM SẮP CHIẾU"}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4">
           {(active === 0 ? images : images)

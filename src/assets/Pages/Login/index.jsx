@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { login } from "../../../redux/apiRequest";
@@ -11,15 +11,13 @@ function Login() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
 
+  // Handle submit form
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email, password);
     login(dispatch, email, password);
     navigate("/");
   };
-
   return (
     <div className="p-10 w-full">
       <section className="flex items-center justify-center text-2xl p-6">
@@ -29,7 +27,8 @@ function Login() {
         className="items-center 
             border-2 border-black p-10 rounded-lg shadow-lg
             bg-white md:w-2/3 xl:w-1/3 md:mx-auto md:flex
-            md:flex-col md:items-center md:justify-center md:mt-10 md:gap-4">
+            md:flex-col md:items-center md:justify-center md:mt-10 md:gap-4"
+      >
         {/* Form login */}
         <form onSubmit={handleSubmit}>
           <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
@@ -57,14 +56,16 @@ function Login() {
             <button
               type="button"
               onClick={() => setShow((prev) => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 bg-white text-black">
+              className="absolute right-3 top-1/2 -translate-y-1/2 bg-white text-black"
+            >
               <FontAwesomeIcon icon={isShow ? faEyeSlash : faEye} />
             </button>
           </div>
 
           <button
             className="bg-blue-500 text-white px-4 py-2 my-3 rounded-md hover:bg-blue-600 w-full"
-            type="submit">
+            type="submit"
+          >
             Login
           </button>
         </form>
