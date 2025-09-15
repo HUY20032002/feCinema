@@ -8,6 +8,7 @@ import Login from "./assets/Pages/Login";
 import Register from "./assets/Pages/Register";
 import ForgotPassword from "./assets/Pages/ForgotPassword";
 import ResetPassword from "./assets/Pages/ResetPassword";
+import { ToastContainer } from "react-toastify";
 function App() {
   return (
     <>
@@ -19,7 +20,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         {/* <Route path="/reset-password" element={<ResetPassword />} /> */}
-      </Routes>
+      </Routes>{" "}
+      <ToastContainer position="bottom-center" />
       <Footer />
     </>
   );

@@ -11,6 +11,8 @@ import Menu from "../Modals/Menu";
 import { useSelector } from "react-redux";
 import { logoutUser } from "../../redux/apiRequest"; // 👈 đúng
 import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+
 function Header() {
   const currentUser = useSelector(
     (state) => state.auth?.login.currentUser || null
@@ -21,8 +23,14 @@ function Header() {
   // Handle logout
   const handleLogout = () => {
     const refreshToken = currentUser?.refreshToken;
-    logoutUser(dispatch, refreshToken); // reset auth slice
-    navigate("/");
+    try {
+      logoutUser(dispatch, refreshToken);
+      // reset auth slice
+      navigate("/");
+      toast.success("Logout successful!");
+    } catch (error) {
+      toast.error("Logout failed. Please try again.", error.message);
+    }
   };
 
   return (
@@ -40,7 +48,7 @@ function Header() {
 
         {/* Desktop menu */}
         <div className="right-content hidden md:flex gap-2">
-          {currentUser?.user._id ? (
+          {currentUser?.user?._id ? (
             <div className="flex items-center justify-center">
               <Link
                 to="/"
@@ -98,7 +106,12 @@ function Header() {
       </div>
 
       {/* Mobile modal menu */}
-      <Menu open={open} onClose={() => setOpen(false)} />
+      <Menu
+        open={open}
+        user={currentUser}
+        onClose={() => setOpen(false)}
+        handleLogout={handleLogout}
+      />
     </header>
   );
 }
