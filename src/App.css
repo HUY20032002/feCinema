@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 .card {
   padding: 2em;
 }
@@ -12,16 +11,17 @@
     @apply container mx-auto px-4 sm:px-6 lg:px-20;
   }
 }
-@layer base {
-  button {
-    @apply cursor-pointer rounded-md px-4 py-2 bg-blue-500 text-white hover:bg-blue-600;
-  }
-}
+
 body {
   background-color: rgb(249, 246, 236);
 }
 @layer components {
   .custom-section {
     @apply container mx-auto px-3 sm:px-6 lg:px-80;
+  }
+}
+@layer components {
+  .modal-close-btn {
+    @apply absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl;
   }
 }

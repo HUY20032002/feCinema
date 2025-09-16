@@ -1,26 +1,19 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom"; // thêm Route
-import "./App.css";
-import Footer from "./assets/Components/Footer";
-import Header from "./assets/Components/Header";
-import HomePage from "./assets/Pages/Home";
-import Login from "./assets/Pages/Login";
-import Register from "./assets/Pages/Register";
-import ForgotPassword from "./assets/Pages/ForgotPassword";
-import ResetPassword from "./assets/Pages/ResetPassword";
+import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Header from "./assets/Components/Header";
+import Footer from "./assets/Components/Footer";
+import UserRoutes from "./routes/UserRoutes";
+import AdminRoutes from "./routes/AdminRoute";
+
 function App() {
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        {/* <Route path="/reset-password" element={<ResetPassword />} /> */}
-      </Routes>{" "}
+        <Route path="/*" element={<UserRoutes />} />
+        <Route path="/admin/*" element={<AdminRoutes />} />
+      </Routes>
       <ToastContainer position="bottom-center" />
       <Footer />
     </>

@@ -1,4 +1,4 @@
-import API from "./axiosInstance"; // file mới tạo ở trên
+import API from "../redux/axiosInstance"; // file mới tạo ở trên
 import {
   loginStart,
   loginSuccess,
@@ -10,8 +10,7 @@ import {
   forgotPasswordSuccess,
   forgotPasswordFailure,
   logout,
-} from "./authSlice";
-
+} from "../redux/authSlice";
 // thunk login
 export const login = async (dispatch, email, password) => {
   try {

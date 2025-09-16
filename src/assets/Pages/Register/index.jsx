@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { register } from "../../../redux/apiRequest";
+import { register } from "../../../api/authRequest";
 import { ToastContainer, toast } from "react-toastify";
 
 function Register() {

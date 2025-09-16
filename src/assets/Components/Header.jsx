@@ -9,7 +9,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import Menu from "../Modals/Menu";
 import { useSelector } from "react-redux";
-import { logoutUser } from "../../redux/apiRequest"; // 👈 đúng
+import { logoutUser } from "../../api/authRequest"; // 👈 đúng
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 
