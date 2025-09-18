@@ -1,8 +1,25 @@
-import React from "react";
-
-function ShowMovieModal({ show, movie, onClose }) {
+import React, { useState } from "react";
+import { useEffect } from "react";
+function EditMovieModal({ show, movie, onClose }) {
   if (!show || !movie) return null;
+  const genres = ["Hành động", "Tình cảm", "Kinh dị", "Hài hước", "Hoạt hình"];
+  const [selectedGenres, setSelectedGenres] = useState([]);
 
+  useEffect(() => {
+    // Khi load form sửa -> set sẵn thể loại đã lưu trong DB
+    if (movie?.genre) {
+      setSelectedGenres(movie.genre);
+    }
+  }, [movie]);
+
+  const handleChange = (genre) => {
+    setSelectedGenres(
+      (prev) =>
+        prev.includes(genre)
+          ? prev.filter((g) => g !== genre) // bỏ chọn
+          : [...prev, genre] // thêm chọn
+    );
+  };
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
@@ -33,16 +50,41 @@ function ShowMovieModal({ show, movie, onClose }) {
 
           {/* Thông tin phim */}
           <div className="p-6 flex flex-col space-y-3">
-            <h2
+            <label htmlFor="">Tên Phim</label>
+            <input
               id="modalTitle"
-              className="text-2xl font-bold text-gray-900 border-b pb-2">
-              {movie.name}
-            </h2>
-            <p className="text-gray-700 text-sm">{movie.description}</p>
+              type="text"
+              className="text-2xl font-bold text-gray-900 border-b pb-2 rounded-sm"
+              defaultValue={movie.name}
+            />
+            <label htmlFor="">Mô tả</label>
+            <input
+              type="text"
+              className="text-gray-700 text-sm"
+              defaultValue={movie.description}
+            />
 
             <div className="grid grid-cols-2 gap-3 text-sm text-gray-800">
               <div>
-                <span className="font-medium">Thể loại:</span> {movie.genre}
+                <h2 className="text-xl font-bold">Chọn thể loại</h2>
+                <div className="flex flex-col gap-2 mt-2">
+                  {genres.map((genre) => (
+                    <label key={genre} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={genre}
+                        checked={selectedGenres.includes(genre)}
+                        onChange={() => handleChange(genre)}
+                      />
+                      {genre}
+                    </label>
+                  ))}
+                </div>
+
+                <div className="mt-4">
+                  <strong>Đã chọn:</strong>{" "}
+                  {selectedGenres.join(", ") || "Chưa có"}
+                </div>
               </div>
               <div>
                 <span className="font-medium">Độ tuổi:</span> {movie.ageRating}+
@@ -103,4 +145,4 @@ function ShowMovieModal({ show, movie, onClose }) {
   );
 }
 
-export default ShowMovieModal;
+export default EditMovieModal;
