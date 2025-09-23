@@ -9,6 +9,9 @@ import {
   createMovieStart,
   createMovieSuccess,
   createMovieFailure,
+  updateMovieStart,
+  updateMovieSuccess,
+  updateMovieFailure,
 } from "../redux/movieSlice";
 
 // Them phim
@@ -28,10 +31,21 @@ export const getAllMovie = async (dispatch) => {
     dispatch(getAllMovieStart());
     const res = await API.get("/movie");
     dispatch(getAllMovieSuccess(res.data.DT));
-    console.log("res", res);
+    console.log("api get all movie res: ", res);
     return res.data.DT;
   } catch (error) {
     dispatch(getAllMovieFailure());
     return error.response?.data || "Lấy phim thất bại";
+  }
+};
+export const updateMovie = async (dispatch, id, data) => {
+  try {
+    dispatch(updateMovieStart());
+    const res = await API.put(`/movie/${id}`, data); // nên dùng PUT
+    dispatch(updateMovieSuccess(res.data.DT));
+    console.log("api update movie res: ", res);
+  } catch (error) {
+    dispatch(updateMovieFailure());
+    console.log("error update: ", error);
   }
 };

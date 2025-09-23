@@ -52,6 +52,20 @@ const movieSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
+    // Sua Phim
+    updateMovieStart: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    updateMovieSuccess: (state, action) => {
+      state.loading = false;
+      state.movie = action.payload;
+      state.error = false;
+    },
+    updateMovieFailure: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
   },
 });
 
@@ -65,6 +79,9 @@ export const {
   createMovieStart,
   createMovieSuccess,
   createMovieFailure,
+  updateMovieStart,
+  updateMovieSuccess,
+  updateMovieFailure,
 } = movieSlice.actions;
 
 export default movieSlice.reducer;

@@ -1,46 +1,34 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createMovie, getAllMovie } from "../../../../api/movieRequest";
+import { getAllMovie } from "../../../../api/movieRequest";
 import { useEffect } from "react";
 import ShowMovieModal from "../../../Modals/ShowMovieModal";
 import EditMovieModal from "../../../Modals/EditMovieModal";
+import CreateMovieModal from "../../../Modals/CreateMovieModal";
 function Movie() {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const movies = useSelector((state) => state.movie.movies || []);
-  const [formData, setFormData] = useState({
-    img: "",
-    name: "",
-    description: "",
-    genre: "",
-    duration: "",
-  });
+  // const user = useSelector((state) => state.auth.login.currentUser || []);
+
   useEffect(() => {
-    getAllMovie(dispatch);
+    (async () => {
+      try {
+        await getAllMovie(dispatch);
+      } catch (error) {
+        console.error("Lỗi khi fetch movie:", error);
+      }
+    })();
   }, [dispatch]);
 
-  // 👉 chỉ dành cho input text/number
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  // Load Data After Edit And Creat
+  const LoadData = async () => {
+    await getAllMovie(dispatch);
   };
 
-  // 👉 dành cho file ảnh
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.readAsDataURL(file); // convert sang base64
-    reader.onloadend = () => {
-      setFormData((prev) => ({ ...prev, img: reader.result }));
-    };
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    createMovie(dispatch, formData); // ✅ gửi data lên BE
-  };
   return (
     <div>
       <ShowMovieModal
@@ -52,59 +40,27 @@ function Movie() {
         show={showEdit}
         movie={selectedMovie}
         onClose={() => setShowEdit(false)}
+        success={() => LoadData()}
+      />
+      <CreateMovieModal
+        show={showCreate}
+        onClose={() => setShowCreate(false)}
+        success={() => LoadData()}
       />
       {/* Form thêm phim */}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Ảnh</label>
-          <input type="file" accept="image/*" onChange={handleFileChange} />
-        </div>
 
-        <div>
-          <label>Tên phim</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Tên phim"
-            value={formData.name}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Mô tả</label>
-          <input
-            type="text"
-            name="description"
-            placeholder="Mô tả phim"
-            value={formData.description}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Thể loại</label>
-          <input
-            type="text"
-            name="genre"
-            placeholder="Ví dụ: Action, Comedy"
-            value={formData.genre}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Thời lượng (phút)</label>
-          <input
-            type="number"
-            name="duration"
-            placeholder="120"
-            value={formData.duration}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <button type="submit">Thêm phim</button>
-      </form>
       <div className="custom-container">
         <h1 className="text-2xl text-center mb-5">Quản lý Phim</h1>
+        <div className="flex justify-end mb-3">
+          {" "}
+          <button
+            className="cursor-pointer px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 "
+            onClick={() => setShowCreate(true)}
+          >
+            Thêm Phim
+          </button>
+        </div>
+
         <div className="overflow-x-auto rounded border border-gray-300 shadow-sm">
           <table className="min-w-full divide-y-2 divide-gray-200">
             <thead className="ltr:text-left rtl:text-right">
@@ -122,7 +78,8 @@ function Movie() {
               {movies.map((movie) => (
                 <tr
                   key={movie._id}
-                  className="*:text-gray-900 *:first:font-medium">
+                  className="*:text-gray-900 *:first:font-medium"
+                >
                   <td className="px-3 py-2 whitespace-nowrap">
                     <img
                       src={movie.bannerUrl}
@@ -162,7 +119,8 @@ function Movie() {
                       onClick={() => {
                         setSelectedMovie(movie);
                         setShow(!show);
-                      }}>
+                      }}
+                    >
                       Chi tiết
                     </button>
                     <button
@@ -170,7 +128,8 @@ function Movie() {
                       onClick={() => {
                         setSelectedMovie(movie);
                         setShowEdit(!showEdit);
-                      }}>
+                      }}
+                    >
                       {" "}
                       Sửa
                     </button>
