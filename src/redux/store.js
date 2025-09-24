@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth,movie"], // chỉ lưu slice auth
+  whitelist: ["auth", "movie"], // chỉ lưu slice auth
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
