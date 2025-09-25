@@ -12,6 +12,9 @@ import {
   updateMovieStart,
   updateMovieSuccess,
   updateMovieFailure,
+  deleteSoftMovieStart,
+  deleteSoftMovieSuccess,
+  deleteSoftMovieFailure,
 } from "../redux/movieSlice";
 
 // Them phim
@@ -38,6 +41,7 @@ export const getAllMovie = async (dispatch) => {
     return error.response?.data || "Lấy phim thất bại";
   }
 };
+// cajp nhat
 export const updateMovie = async (dispatch, id, data) => {
   try {
     dispatch(updateMovieStart());
@@ -46,6 +50,17 @@ export const updateMovie = async (dispatch, id, data) => {
     console.log("api update movie res: ", res);
   } catch (error) {
     dispatch(updateMovieFailure());
+    console.log("error update: ", error);
+  }
+};
+// Xoa mem
+export const deleteSoftMovie = async (dispatch, id) => {
+  try {
+    dispatch(deleteSoftMovieStart());
+    await API.patch(`/movie/${id}`);
+    dispatch(deleteSoftMovieSuccess());
+  } catch (error) {
+    dispatch(deleteSoftMovieFailure());
     console.log("error update: ", error);
   }
 };

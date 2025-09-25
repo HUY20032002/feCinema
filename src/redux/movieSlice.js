@@ -66,6 +66,19 @@ const movieSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
+    // Xoa mem phim
+    deleteSoftMovieStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    deleteSoftMovieSuccess: (state) => {
+      state.loading = false;
+      state.error = false;
+    },
+    deleteSoftMovieFailure: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
   },
 });
 
@@ -82,6 +95,9 @@ export const {
   updateMovieStart,
   updateMovieSuccess,
   updateMovieFailure,
+  deleteSoftMovieStart,
+  deleteSoftMovieSuccess,
+  deleteSoftMovieFailure,
 } = movieSlice.actions;
 
 export default movieSlice.reducer;
