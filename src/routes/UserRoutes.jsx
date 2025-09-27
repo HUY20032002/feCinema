@@ -4,6 +4,7 @@ import Login from "../assets/Pages/Login";
 import Register from "../assets/Pages/Register";
 import ForgotPassword from "../assets/Pages/ForgotPassword";
 import ResetPassword from "../assets/Pages/ResetPassword";
+import Movie from "../assets/Pages/Movie";
 
 function UserRoutes() {
   return (
@@ -13,6 +14,7 @@ function UserRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/movie/:slug/:id" element={<Movie />} />
     </Routes>
   );
 }

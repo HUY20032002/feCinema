@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function MovieCard({ movie, index }) {
   return (
@@ -12,10 +13,14 @@ function MovieCard({ movie, index }) {
         {/* Overlay */}
         <div
           className="absolute inset-0 bg-black/50 flex items-center justify-center gap-3 
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="px-4 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200">
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          <Link
+            to={`/movie/${movie.slug}/${movie._id}`}
+            className="px-4 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200"
+          >
             Chi tiết
-          </button>
+          </Link>
           <button className="px-4 py-2 bg-pink-600 text-white rounded-lg font-semibold hover:bg-pink-700">
             Đặt vé
           </button>
@@ -26,13 +31,15 @@ function MovieCard({ movie, index }) {
         <div className="flex items-center gap-2 border-b border-gray-300 pb-1">
           <div
             className={`w-6 h-6 flex items-center justify-center rounded-full text-white text-xs font-bold ml-2
-        ${Number(movie.ageRating) >= 16 ? "bg-pink-600" : "bg-blue-600"}`}>
+        ${Number(movie.ageRating) >= 16 ? "bg-pink-600" : "bg-blue-600"}`}
+          >
             {movie.ageRating}
           </div>
 
           <div
             className="font-extrabold text-sm tracking-wide uppercase truncate max-w-[200px]"
-            title={movie.name}>
+            title={movie.name}
+          >
             {movie.name}
           </div>
         </div>

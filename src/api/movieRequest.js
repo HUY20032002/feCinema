@@ -41,6 +41,19 @@ export const getAllMovie = async (dispatch) => {
     return error.response?.data || "Lấy phim thất bại";
   }
 };
+// Lay 1 phim
+export const getMovie = async (dispatch, id) => {
+  try {
+    dispatch(getMovieStart());
+    const res = await API.get(`/movie/${id}`);
+    dispatch(getMovieSuccess(res.data.DT));
+    console.log("api get movie res: ", res);
+    return res.data.DT;
+  } catch (error) {
+    dispatch(getMovieFailure());
+    return error.response?.data || "Lấy phim thất bại";
+  }
+};
 // cajp nhat
 export const updateMovie = async (dispatch, id, data) => {
   try {
