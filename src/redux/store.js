@@ -3,15 +3,21 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // lưu vào localStorage
 import authReducer from "./authSlice";
 import movieReducer from "./movieSlice";
+import cinemaReducer from "./cinemaSlice";
+import roomReducer from "./roomSlice";
+import showtimeReducer from "./showtimeSlice";
 const rootReducer = combineReducers({
   auth: authReducer,
+  cinema: cinemaReducer,
   movie: movieReducer,
+  room: roomReducer,
+  showtime: showtimeReducer,
 });
 
 const persistConfig = {
-  key: "root",
+  key: "root_v2",
   storage,
-  whitelist: ["auth", "movie"], // chỉ lưu slice auth
+  whitelist: ["auth", "movie", "cinema", "room", "showtime"], // chỉ lưu slice auth
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

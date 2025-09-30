@@ -1,4 +1,4 @@
-import API from "../redux/axiosInstance"; // file mới tạo ở trên
+import API from "../redux/axiosInstance";
 import {
   getAllMovieStart,
   getAllMovieSuccess,
@@ -17,63 +17,114 @@ import {
   deleteSoftMovieFailure,
 } from "../redux/movieSlice";
 
-// Them phim
+// Thêm phim - ĐÃ SỬA
 export const createMovie = async (dispatch, data) => {
   try {
     dispatch(createMovieStart());
-    await API.post(`/movie/create`, data);
-    dispatch(createMovieSuccess());
+    const res = await API.post(`/movie/create`, data);
+
+    // Thêm movie mới vào state
+    dispatch(createMovieSuccess(res.data.DT));
+
+    // Trả về thông báo thành công
+    return {
+      success: true,
+      message: res.data.message,
+      data: res.data.DT,
+    };
   } catch (error) {
+    const errorMessage = error.response?.data?.message || "Tạo phim thất bại";
     dispatch(createMovieFailure());
-    return error.response?.data || "Lấy phim thất bại";
+
+    return {
+      success: false,
+      message: errorMessage,
+      data: null,
+    };
   }
 };
-// Lay tat ca danh sach phim
+
+// Lấy tất cả danh sách phim
 export const getAllMovie = async (dispatch) => {
   try {
     dispatch(getAllMovieStart());
     const res = await API.get("/movie");
     dispatch(getAllMovieSuccess(res.data.DT));
-    console.log("api get all movie res: ", res);
-    return res.data.DT;
+    return {
+      success: true,
+      data: res.data.DT,
+    };
   } catch (error) {
+    const errorMessage = error.response?.data?.message || "Lấy phim thất bại";
     dispatch(getAllMovieFailure());
-    return error.response?.data || "Lấy phim thất bại";
+    return {
+      success: false,
+      message: errorMessage,
+      data: [],
+    };
   }
 };
-// Lay 1 phim
+
+// Lấy 1 phim
 export const getMovie = async (dispatch, id) => {
   try {
     dispatch(getMovieStart());
     const res = await API.get(`/movie/${id}`);
     dispatch(getMovieSuccess(res.data.DT));
-    console.log("api get movie res: ", res);
-    return res.data.DT;
+    return {
+      success: true,
+      data: res.data.DT,
+    };
   } catch (error) {
+    const errorMessage = error.response?.data?.message || "Lấy phim thất bại";
     dispatch(getMovieFailure());
-    return error.response?.data || "Lấy phim thất bại";
+    return {
+      success: false,
+      message: errorMessage,
+      data: null,
+    };
   }
 };
-// cajp nhat
+
+// Cập nhật phim
 export const updateMovie = async (dispatch, id, data) => {
   try {
     dispatch(updateMovieStart());
-    const res = await API.put(`/movie/${id}`, data); // nên dùng PUT
+    const res = await API.put(`/movie/${id}`, data);
     dispatch(updateMovieSuccess(res.data.DT));
-    console.log("api update movie res: ", res);
+    return {
+      success: true,
+      message: res.data.message,
+      data: res.data.DT,
+    };
   } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || "Cập nhật phim thất bại";
     dispatch(updateMovieFailure());
-    console.log("error update: ", error);
+    return {
+      success: false,
+      message: errorMessage,
+      data: null,
+    };
   }
 };
-// Xoa mem
+
+// Xóa mềm
 export const deleteSoftMovie = async (dispatch, id) => {
   try {
     dispatch(deleteSoftMovieStart());
-    await API.patch(`/movie/${id}`);
+    const res = await API.patch(`/movie/soft-delete/${id}`); // Sửa endpoint cho rõ ràng
     dispatch(deleteSoftMovieSuccess());
+    return {
+      success: true,
+      message: res.data.message,
+    };
   } catch (error) {
+    const errorMessage = error.response?.data?.message || "Xóa phim thất bại";
     dispatch(deleteSoftMovieFailure());
-    console.log("error update: ", error);
+    return {
+      success: false,
+      message: errorMessage,
+    };
   }
 };
